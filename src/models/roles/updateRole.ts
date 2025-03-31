@@ -1,17 +1,22 @@
 import { Role } from "../../db/data/types";
 import * as models from "../../db/models";
 import { HttpError } from "../../middleware/error-handling";
+import bcrypt from 'bcryptjs';
 
-export const updateRole = async (id: number, updatedRoleData: Role): Promise<Role> => {
-	const role = await models.Role.findByPk(id);
+export const updateRole = async (roleId: number, updatedUserData: Role): Promise<Role> => {
+
+	const role = await models.Role.findOne({
+		where: { role_id: roleId },
+	});
+
 	if (!role) {
-		throw new HttpError(404, 'Role not found');
+		throw new HttpError(404, "No data found");
 	}
 
-	const createdRole = await role.update(updatedRoleData); // Actualiza el rol existente
-	if (!createdRole) {
-		throw new HttpError(500, `Error updating role`);
-	}
+	role.name = updatedUserData.name ?? role.name;
+	role.status = updatedUserData.status ?? role.status;
 
-	return createdRole;
+	await role.save();
+
+	return role;
 };

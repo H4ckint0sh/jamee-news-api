@@ -1,13 +1,20 @@
-import { Role } from "../../db/data/types";
 import * as models from "../../db/models";
+import { Role } from "../../db/data/types";
 import { HttpError } from "../../middleware/error-handling";
 
-export const getRoleById = async (id: number): Promise<Role> => {
-	const role = await models.Role.findByPk(id);
+export const getRoleById = async (roleId: number): Promise<Role> => {
+	const user = await models.Role.findOne({
+		attributes: [
+			"role_id",
+			"name",
+			"status",
+		],
+		where: { role_id: roleId },
+	});
 
-	if (!role) {
-		throw new HttpError(500, `Error fetching role with ID ${id}`);
+	if (!user) {
+		throw new HttpError(404, "No data found");
 	}
 
-	return role;
+	return user;
 };

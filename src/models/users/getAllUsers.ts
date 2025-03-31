@@ -60,5 +60,7 @@ export const getAllUsers = async (
 
 	const users = await models.User.findAll(findOptions);
 
+	console.log('users inside', users)
+
 	return users;
 };

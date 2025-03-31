@@ -1,28 +1,33 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response, raw } from "express";
 import bcrypt from 'bcryptjs';
+import * as models from "../../../db/models";
 import * as usersModel from "../../../models/users";
-import * as roleModel from "../../../models/roles";
-import { User } from "../../../db/data/types";
-import { UserQuery } from "../types";
 import { ValidationError } from "../../../middleware/error-handling";
 import { generateToken } from "../../../utils";
+import { Model } from "sequelize";
 
+import { UserQuery } from "../types";
 export const login = async (
-	req: Request<{ id: string }, {}, User, UserQuery>,
+	req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
 	try {
 		const { userName, password } = req.body;
-		const allQueries = req.query;
-		const users = await usersModel.getAllUsers(allQueries);
-		const user = users.find(u => u.userName === userName);
+		const user = await models.User.findOne({
+			attributes: [
+				"user_id",
+				"password",
+			],
+			where: { userName: userName },
+			raw: true
+		})
 
 		if (!user) {
 			throw new ValidationError('User not found.');
 		}
 
-		const passwordIsValid = bcrypt.compareSync(password, user.password);
+		const passwordIsValid = bcrypt.compareSync(password, user?.password);
 		if (!passwordIsValid) {
 			return res.status(401).send({ auth: false, token: null });
 			throw new ValidationError('Invalid password.');

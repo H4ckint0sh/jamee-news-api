@@ -1,9 +1,8 @@
 import * as models from "../../db/models";
-
 import { HttpError } from "../../middleware/error-handling";
 
 export const deleteRole = async (modetId: number) => {
-	const rowCount = await models.Article.destroy({
+	const rowCount = await models.Role.destroy({
 		where: { article_id: modetId },
 	});
 	if (!rowCount) {

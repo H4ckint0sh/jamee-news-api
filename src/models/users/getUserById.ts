@@ -1,4 +1,3 @@
-import { Sequelize } from "sequelize";
 import * as models from "../../db/models";
 import { User } from "../../db/data/types";
 import { HttpError } from "../../middleware/error-handling";
