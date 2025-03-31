@@ -11,8 +11,8 @@ export const updateRole
 		next: NextFunction
 	) => {
 		try {
-			const id = parseInt(req.params.id);
-			if (isNaN(id)) {
+			const roleId = parseInt(req.params.role_id);
+			if (isNaN(roleId)) {
 				throw new ValidationError('Invalid role id');
 			}
 			const { name, status } = req.body;
@@ -22,13 +22,13 @@ export const updateRole
 
 			// Check if the role name already exists and is not the name of the role being updated
 			const existingRole = await roleModel.getAllRoles().then(roles =>
-				roles.find(role => role.name === name && role.role_id !== id)
+				roles.find(role => role.name === name && role.role_id !== roleId)
 			);
 			if (existingRole) {
 				throw new ValidationError('Role name already exists');
 			}
 
-			const updatedRole = await roleModel.updateRole(id, req.body);
+			const updatedRole = await roleModel.updateRole(roleId, req.body);
 			if (!updatedRole) {
 				throw new ValidationError('Role not found');
 			}

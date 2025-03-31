@@ -8,11 +8,11 @@ export const getRoleById = async (
 	next: NextFunction
 ) => {
 	try {
-		const id = parseInt(req.params.id);
-		if (isNaN(id)) {
+		const roleId = parseInt(req.params.role_id);
+		if (isNaN(roleId)) {
 			throw new ValidationError('Invalid role ID');
 		}
-		const role = await rolesModel.getRoleById(id);
+		const role = await rolesModel.getRoleById(roleId);
 		if (!role) {
 			throw new ValidationError('Role not found');
 		}

@@ -9,11 +9,11 @@ export const deleteRole
 		next: NextFunction
 	) => {
 		try {
-			const articleId = Number(req.params.article_id);
-			if (isNaN(articleId)) {
+			const roleId = Number(req.params.role_id);
+			if (isNaN(roleId)) {
 				throw new ValidationError("Invalid article id provided");
 			}
-			await roleModel.deleteRole(articleId);
+			await roleModel.deleteRole(roleId);
 			res.status(204).send();
 		} catch (error) {
 			next(error);
