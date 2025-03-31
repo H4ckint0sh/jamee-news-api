@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import * as usersModel from "../../../models/users";
 import * as roleModel from "../../../models/roles";
 import { User } from "../../../db/data/types";
 import { UserQuery } from "../types";
 import { ValidationError } from "../../../middleware/error-handling";
 import { generateToken } from "../../../utils";
+import * as models from "../../../db/models";
 
 export const register = async (
 	req: Request<{ id: string }, {}, User, UserQuery>,
@@ -19,20 +19,20 @@ export const register = async (
 			throw new ValidationError('Username, password, and role ID are required.');
 		}
 
-		// Validación de existencia del rol
 		const role = await roleModel.getRoleById(roleId);
 		if (!role) {
 			throw new ValidationError('Role not found.');
 		}
 
-		// Verificación de que el nombre de usuario no esté repetido
-		const existingUsers = await usersModel.getAllUsers(allQueries);
-		const existingUser = existingUsers.find(user => user.userName === userName);
+		const existingUser = await models.User.findOne({
+			where: { userName: userName },
+			raw: true
+		})
 		if (existingUser) {
 			throw new ValidationError('Username already exists.');
 		}
 
-		const newUser = await usersModel.createUser(req.body);
+		const newUser = await models.User.create(req.body);
 
 		const token = generateToken(newUser);
 		res.status(201).send({ auth: true, token });

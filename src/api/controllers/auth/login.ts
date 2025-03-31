@@ -1,10 +1,8 @@
 import { NextFunction, Request, Response, raw } from "express";
 import bcrypt from 'bcryptjs';
 import * as models from "../../../db/models";
-import * as usersModel from "../../../models/users";
 import { ValidationError } from "../../../middleware/error-handling";
 import { generateToken } from "../../../utils";
-import { Model } from "sequelize";
 
 import { UserQuery } from "../types";
 export const login = async (

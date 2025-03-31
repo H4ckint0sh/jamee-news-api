@@ -3,12 +3,15 @@ import * as models from "../models";
 
 import { convertTimestampToDate, createRef, formatComments } from "./utils";
 
-const seed = async ({ topicData, userData, articleData, commentData }) => {
+const seed = async ({ topicData, userData, articleData, commentData, roleData }) => {
 	try {
 		await db.sync({ force: true });
 
 		// Create topics
 		await models.Topic.bulkCreate(topicData);
+
+		//Create roles
+		await models.Role.bulkCreate(roleData);
 
 		// Create users
 		await models.User.bulkCreate(userData);
