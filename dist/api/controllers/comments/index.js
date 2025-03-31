@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteComment = exports.getCommentsByArticleId = exports.updateComment = exports.createComment = void 0;
+var createComment_1 = require("./createComment");
+Object.defineProperty(exports, "createComment", { enumerable: true, get: function () { return createComment_1.createComment; } });
+var updateComment_1 = require("./updateComment");
+Object.defineProperty(exports, "updateComment", { enumerable: true, get: function () { return updateComment_1.updateComment; } });
+var getComments_1 = require("./getComments");
+Object.defineProperty(exports, "getCommentsByArticleId", { enumerable: true, get: function () { return getComments_1.getCommentsByArticleId; } });
+var deleteComment_1 = require("./deleteComment");
+Object.defineProperty(exports, "deleteComment", { enumerable: true, get: function () { return deleteComment_1.deleteComment; } });

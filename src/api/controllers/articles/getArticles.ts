@@ -5,18 +5,19 @@ import * as articlesModel from "../../../models/articles";
 import { ArticleQuery } from "../types";
 
 export const getArticles = async (
-  req: Request<{}, {}, {}, ArticleQuery>,
-  res: Response,
-  next: NextFunction
+	req: Request<{}, {}, {}, ArticleQuery>,
+	res: Response,
+	next: NextFunction
 ) => {
-  try {
-    const allQueries = req.query;
-    const articles = await articlesModel.getArticles(allQueries);
+	try {
+		const allQueries = req.query;
 
-    res.status(200).send({ articles });
-  } catch (error) {
-    next(error);
-  }
+		const articles = await articlesModel.getArticles(allQueries);
+
+		res.status(200).send({ articles });
+	} catch (error) {
+		next(error);
+	}
 };
 
 /**

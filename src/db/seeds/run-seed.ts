@@ -6,15 +6,17 @@ import devData from "../data/development-data";
 
 const ENV = process.env.NODE_ENV || "development";
 
-const runDevSeed = () => {
-  return seed(devData).then(() => db.close());
+const runDevSeed = async () => {
+	await seed(devData);
+	return db.close();
 };
-const runTestSeed = () => {
-  return seed(testData).then(() => db.close());
+const runTestSeed = async () => {
+	await seed(testData);
+	return db.close();
 };
 
 if (ENV === "test") {
-  runTestSeed();
+	runTestSeed();
 } else {
-  runDevSeed();
+	runDevSeed();
 }
