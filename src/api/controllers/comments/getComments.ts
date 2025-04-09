@@ -1,14 +1,19 @@
-import { NextFunction, Request, Response } from "express";
+import { RequestHandler } from "express";
 
 import { ArticleQuery } from "../types";
 
 import * as commentsModel from "../../../models/comments";
 import { ValidationError } from "../../../middleware/error-handling";
 
-export const getCommentsByArticleId = async (
-  req: Request<{ article_id: string }, {}, {}, ArticleQuery>,
-  res: Response,
-  next: NextFunction
+type Params = { article_id : string};
+type ResBody = {};
+type ReqBody = {};
+
+
+export const getCommentsByArticleId : RequestHandler<Params, ResBody, ReqBody, ArticleQuery> = async (
+  req,
+  res,
+  next
 ): Promise<void> => {
   try {
     const articleId = Number(req.params.article_id);

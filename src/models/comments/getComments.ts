@@ -1,13 +1,14 @@
-import { Sequelize } from "sequelize";
+import { Model, Sequelize } from "sequelize";
 
 import * as models from "../../db/models";
 import { Comment } from "../../db/data/types";
 
 import { HttpError, ValidationError } from "../../middleware/error-handling";
+import { ArticleQuery } from "../../api/controllers/types";
 
 export const getCommentsByArticleId = async (
   articleId: number,
-  queries: { limit: number; p: number }
+  queries: ArticleQuery,
 ): Promise<Comment[]> => {
   const { limit = 10, p = 1 } = queries;
 
@@ -49,5 +50,5 @@ export const getCommentsByArticleId = async (
     offset: offset,
   });
 
-  return comments;
+  return comments.map((comment: Model<Comment, Partial<Comment>>) => comment.get({ plain: true }));
 };

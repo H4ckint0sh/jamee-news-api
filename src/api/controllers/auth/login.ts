@@ -1,41 +1,36 @@
-import { NextFunction, Request, Response, raw } from "express";
 import bcrypt from 'bcryptjs';
-import * as models from "../../../db/models";
-import { ValidationError } from "../../../middleware/error-handling";
-import { generateToken } from "../../../utils";
+import { NextFunction, Request, Response } from 'express';
+import * as models from '../../../db/models';
+import { ValidationError } from '../../../middleware/error-handling';
+import { generateToken } from '../../../utils';
 
-import { UserQuery } from "../types";
 export const login = async (
-	req: Request,
-	res: Response,
-	next: NextFunction
+    req: Request,
+    res: Response,
+    next: NextFunction
 ) => {
-	try {
-		const { userName, password } = req.body;
-		const user = await models.User.findOne({
-			attributes: [
-				"user_id",
-				"password",
-			],
-			where: { userName: userName },
-			raw: true
-		})
+    try {
+        const { userName, password } = req.body;
+        const user = await models.User.findOne({
+            attributes: ['user_id', 'password', 'roleId'],
+            where: { userName: userName },
+            raw: true,
+        });
 
-		if (!user) {
-			throw new ValidationError('User not found.');
-		}
+        if (!user) {
+            throw new ValidationError('User not found.');
+        }
 
-		const passwordIsValid = bcrypt.compareSync(password, user?.password);
-		if (!passwordIsValid) {
-			return res.status(401).send({ auth: false, token: null });
-			throw new ValidationError('Invalid password.');
-		}
+        const passwordIsValid = bcrypt.compareSync(password, user?.password);
+        if (!passwordIsValid) {
+            return res.status(401).send({ auth: false, token: null });
+        }
 
-		const token = generateToken(user);
-		res.status(200).send({ auth: true, token });
-	} catch (error) {
-		next(error);
-	}
+        const token = generateToken(user);
+        res.status(200).send({ auth: true, token });
+    } catch (error) {
+        next(error);
+    }
 };
 
 /**

@@ -1,23 +1,27 @@
-import { Request, Response, NextFunction } from "express";
-
+import { RequestHandler } from "express";
 import * as articlesModel from "../../../models/articles";
 
 import { ArticleQuery } from "../types";
 
-export const getArticles = async (
-	req: Request<{}, {}, {}, ArticleQuery>,
-	res: Response,
-	next: NextFunction
-) => {
-	try {
-		const allQueries = req.query;
+type Params = {};
+type ResBody = {};
+type ReqBody = {};
 
-		const articles = await articlesModel.getArticles(allQueries);
+export const getArticles: RequestHandler<
+  Params,
+  ResBody,
+  ReqBody,
+  ArticleQuery
+> = async (req, res, next) => {
+  try {
+    const allQueries = req.query;
 
-		res.status(200).send({ articles });
-	} catch (error) {
-		next(error);
-	}
+    const articles = await articlesModel.getArticles(allQueries);
+
+    res.status(200).send({ articles });
+  } catch (error) {
+    next(error);
+  }
 };
 
 /**

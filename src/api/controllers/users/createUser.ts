@@ -1,38 +1,37 @@
-import { NextFunction, Request, Response } from "express";
-import * as usersModel from "../../../models/users";
-import * as roleModel from "../../../models/roles";
-import { ValidationError } from "../../../middleware/error-handling";
-import { User } from "../../../db/data/types";
-import { UserQuery } from "../types";
+import { NextFunction, Request, Response } from 'express';
+import * as usersModel from '../../../models/users';
+import * as roleModel from '../../../models/roles';
+import { ValidationError } from '../../../middleware/error-handling';
+import { User } from '../../../db/data/types';
+import { UserQuery } from '../types';
 
 export const createUser = async (
-	req: Request<{ id: string }, {}, User, UserQuery>,
-	res: Response,
-	next: NextFunction
+    req: Request<{ id: string }, {}, User, UserQuery>,
+    res: Response,
+    next: NextFunction
 ) => {
-	try {
-		const { userName, password, roleId } = req.body;
-		const allQueries = req.query;
+    try {
+        const { userName, password, roleId } = req.body;
+        const allQueries = req.query;
 
-		if (!userName || !password || !roleId) {
-			throw new ValidationError("Invalid user data provided");
-		}
-		const existingUser = await usersModel.getAllUsers(allQueries).then(users =>
-			users.find(user => user.userName === userName)
-		);
-		if (existingUser) {
-			throw new ValidationError("Username already exists");
-		}
-		const role = await roleModel.getRoleById(roleId);
-		if (!role) {
-			throw new ValidationError("Role not found");
-		}
-		const newUser = await usersModel.createUser(req.body);
-		res.status(201).send({ newUser });
-
-	} catch (error) {
-		next(error);
-	}
+        if (!userName || !password || !roleId) {
+            throw new ValidationError('Invalid user data provided');
+        }
+        const existingUser = await usersModel
+            .getAllUsers(allQueries)
+            .then((users) => users.find((user) => user.userName === userName));
+        if (existingUser) {
+            throw new ValidationError('Username already exists');
+        }
+        const role = await roleModel.getRoleById(roleId);
+        if (!role) {
+            throw new ValidationError('Role not found');
+        }
+        const newUser = await usersModel.createUser(req.body);
+        res.status(201).send({ newUser });
+    } catch (error) {
+        next(error);
+    }
 };
 
 /**
