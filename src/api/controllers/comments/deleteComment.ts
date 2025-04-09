@@ -1,23 +1,23 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from 'express';
 
-import * as commentsModel from "../../../models/comments";
-import { ValidationError } from "../../../middleware/error-handling";
+import * as commentsModel from '../../../models/comments';
+import { ValidationError } from '../../../middleware/error-handling';
 
 export const deleteComment = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
+    req: Request,
+    res: Response,
+    next: NextFunction
 ) => {
-  try {
-    const comment_id: number = Number(req.params.comment_id);
-    if (isNaN(comment_id)) {
-      throw new ValidationError("Bad request");
+    try {
+        const comment_id: number = Number(req.params.comment_id);
+        if (isNaN(comment_id)) {
+            throw new ValidationError('Bad request');
+        }
+        await commentsModel.deleteComment(comment_id);
+        res.status(204).send();
+    } catch (error) {
+        next(error);
     }
-    await commentsModel.deleteComment(comment_id);
-    res.status(204).send();
-  } catch (error) {
-    next(error);
-  }
 };
 
 /**

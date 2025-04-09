@@ -253,7 +253,6 @@ describe('COMMENTS endpoints', () => {
         test('204 - DELETE: Responds with an appropriate status code', () => {
             return request(app)
                 .delete('/api/comments/1')
-
                 .set('Authorization', `Bearer ${userToken}`)
                 .expect(204);
         });

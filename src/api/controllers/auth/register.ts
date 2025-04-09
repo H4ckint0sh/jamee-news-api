@@ -1,46 +1,47 @@
-import { NextFunction, Request, Response } from "express";
-import * as roleModel from "../../../models/roles";
-import { User } from "../../../db/data/types";
-import { UserQuery } from "../types";
-import { ValidationError } from "../../../middleware/error-handling";
-import { generateToken } from "../../../utils";
-import * as models from "../../../db/models";
+import { NextFunction, Request, Response } from 'express';
+import * as roleModel from '../../../models/roles';
+import { User } from '../../../db/data/types';
+import { UserQuery } from '../types';
+import { ValidationError } from '../../../middleware/error-handling';
+import { generateToken } from '../../../utils';
+import * as models from '../../../db/models';
 
 export const register = async (
-	req: Request<{ id: string }, {}, User, UserQuery>,
-	res: Response,
-	next: NextFunction
+    req: Request<{ id: string }, {}, User, UserQuery>,
+    res: Response,
+    next: NextFunction
 ) => {
-	try {
-		const { userName, password, roleId } = req.body;
-		const allQueries = req.query;
+    try {
+        const { userName, password, roleId } = req.body;
+        const allQueries = req.query;
 
-		if (!userName || !password || !roleId) {
-			throw new ValidationError('Username, password, and role ID are required.');
-		}
+        if (!userName || !password || !roleId) {
+            throw new ValidationError(
+                'Username, password, and role ID are required.'
+            );
+        }
 
-		const role = await roleModel.getRoleById(roleId);
-		if (!role) {
-			throw new ValidationError('Role not found.');
-		}
+        const role = await roleModel.getRoleById(roleId);
+        if (!role) {
+            throw new ValidationError('Role not found.');
+        }
 
-		const existingUser = await models.User.findOne({
-			where: { userName: userName },
-			raw: true
-		})
-		if (existingUser) {
-			throw new ValidationError('Username already exists.');
-		}
+        const existingUser = await models.User.findOne({
+            where: { userName: userName },
+            raw: true,
+        });
+        if (existingUser) {
+            throw new ValidationError('Username already exists.');
+        }
 
-		const newUser = await models.User.create(req.body);
+        const newUser = await models.User.create(req.body);
 
-		const token = generateToken(newUser);
-		res.status(201).send({ auth: true, token });
-	} catch (error) {
-		next(error);
-	}
+        const token = generateToken(newUser);
+        res.status(201).send({ auth: true, token });
+    } catch (error) {
+        next(error);
+    }
 };
-
 
 /**
  * @swagger

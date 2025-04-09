@@ -1,31 +1,30 @@
-import { NextFunction, Request, Response } from "express";
-import * as rolesModel from "../../../models/roles";
-import { ValidationError } from "../../../middleware/error-handling";
+import { NextFunction, Request, Response } from 'express';
+import * as rolesModel from '../../../models/roles';
+import { ValidationError } from '../../../middleware/error-handling';
 
 export const createRole = async (
-	req: Request,
-	res: Response,
-	next: NextFunction
+    req: Request,
+    res: Response,
+    next: NextFunction
 ) => {
-	try {
-		const { name, status } = req.body;
-		if (!name || typeof status !== 'boolean') {
-			throw new ValidationError("Invalid role data");
+    try {
+        const { name, status } = req.body;
+        if (!name || typeof status !== 'boolean') {
+            throw new ValidationError('Invalid role data');
+        }
+        // Check if the role name already exists
+        const existingRole = await rolesModel
+            .getAllRoles()
+            .then((roles) => roles.find((role) => role.name === name));
+        if (existingRole) {
+            throw new ValidationError('Role name already exists');
+        }
 
-		}
-		// Check if the role name already exists
-		const existingRole = await rolesModel.getAllRoles().then(roles =>
-			roles.find(role => role.name === name)
-		);
-		if (existingRole) {
-			throw new ValidationError("Role name already exists");
-		}
-
-		const newRole = await rolesModel.createRole(req.body);
-		res.status(201).send({ newRole });
-	} catch (error) {
-		next(error);
-	}
+        const newRole = await rolesModel.createRole(req.body);
+        res.status(201).send({ newRole });
+    } catch (error) {
+        next(error);
+    }
 };
 
 /**

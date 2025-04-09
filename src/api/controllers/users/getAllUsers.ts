@@ -1,19 +1,19 @@
-import { NextFunction, Request, Response } from "express";
-import * as usersModel from "../../../models/users";
-import { UserQuery } from "../types";
+import { NextFunction, Request, Response } from 'express';
+import * as usersModel from '../../../models/users';
+import { UserQuery } from '../types';
 
 export const getAllUsers = async (
-	req: Request<{}, {}, {}, UserQuery>,
-	res: Response,
-	next: NextFunction
+    req: Request<{}, {}, {}, UserQuery>,
+    res: Response,
+    next: NextFunction
 ) => {
-	try {
-		const allQueries = req.query;
-		const users = await usersModel.getAllUsers(allQueries);
-		res.status(200).send({ users });
-	} catch (error) {
-		next(error);
-	}
+    try {
+        const allQueries = req.query;
+        const users = await usersModel.getAllUsers(allQueries);
+        res.status(200).send({ users });
+    } catch (error) {
+        next(error);
+    }
 };
 
 /**

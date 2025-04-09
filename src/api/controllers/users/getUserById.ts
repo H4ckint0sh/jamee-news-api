@@ -1,23 +1,23 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from 'express';
 
-import * as usersModel from "../../../models/users";
-import { ValidationError } from "../../../middleware/error-handling";
+import * as usersModel from '../../../models/users';
+import { ValidationError } from '../../../middleware/error-handling';
 
 export const getUserById = async (
-	req: Request,
-	res: Response,
-	next: NextFunction
+    req: Request,
+    res: Response,
+    next: NextFunction
 ) => {
-	try {
-		const userId = Number(req.params.user_id);
-		if (isNaN(userId)) {
-			throw new ValidationError("Invalid userId id provided");
-		}
-		const user = await usersModel.getUserById(userId);
-		res.status(200).send({ user });
-	} catch (error) {
-		next(error);
-	}
+    try {
+        const userId = Number(req.params.user_id);
+        if (isNaN(userId)) {
+            throw new ValidationError('Invalid userId id provided');
+        }
+        const user = await usersModel.getUserById(userId);
+        res.status(200).send({ user });
+    } catch (error) {
+        next(error);
+    }
 };
 
 /**

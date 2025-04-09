@@ -1,17 +1,17 @@
-import { NextFunction, Request, Response } from "express";
-import * as rolesModel from "../../../models/roles";
+import { NextFunction, Request, Response } from 'express';
+import * as rolesModel from '../../../models/roles';
 
 export const getAllRoles = async (
-	req: Request,
-	res: Response,
-	next: NextFunction
+    req: Request,
+    res: Response,
+    next: NextFunction
 ) => {
-	try {
-		const roles = await rolesModel.getAllRoles();
-		res.status(200).json(roles);
-	} catch (error) {
-		next(error);
-	}
+    try {
+        const roles = await rolesModel.getAllRoles();
+        res.status(200).json(roles);
+    } catch (error) {
+        next(error);
+    }
 };
 
 /**

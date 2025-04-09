@@ -1,24 +1,23 @@
-import { NextFunction, Request, Response } from "express";
-import * as roleModel from "../../../models/roles";
-import { ValidationError } from "../../../middleware/error-handling";
+import { NextFunction, Request, Response } from 'express';
+import * as roleModel from '../../../models/roles';
+import { ValidationError } from '../../../middleware/error-handling';
 
-export const deleteRole
-	= async (
-		req: Request,
-		res: Response,
-		next: NextFunction
-	) => {
-		try {
-			const roleId = Number(req.params.role_id);
-			if (isNaN(roleId)) {
-				throw new ValidationError("Invalid article id provided");
-			}
-			await roleModel.deleteRole(roleId);
-			res.status(204).send();
-		} catch (error) {
-			next(error);
-		}
-	};
+export const deleteRole = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const roleId = Number(req.params.role_id);
+        if (isNaN(roleId)) {
+            throw new ValidationError('Invalid article id provided');
+        }
+        await roleModel.deleteRole(roleId);
+        res.status(204).send();
+    } catch (error) {
+        next(error);
+    }
+};
 
 /**
  * @swagger
