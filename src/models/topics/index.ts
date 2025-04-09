@@ -1,2 +1,2 @@
-export { createTopic } from "./createTopic";
-export { getTopics } from "./getTopics";
+export { createTopic } from './createTopic';
+export { getTopics } from './getTopics';

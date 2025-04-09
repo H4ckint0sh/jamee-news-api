@@ -1,10 +1,10 @@
-import express, { Application } from "express";
-import cors from "cors";
+import express, { Application } from 'express';
+import cors from 'cors';
 
-import routes from "./api/routes";
-import swaggerRouter from "./swagger";
+import routes from './api/routes';
+import swaggerRouter from './swagger';
 
-import { errorHandling } from "./middleware/error-handling";
+import { errorHandling } from './middleware/error-handling';
 
 const app: Application = express();
 
@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 // * Routes
-app.use("/api", routes);
+app.use('/api', routes);
 
 // * Custom Error Handler
 app.use(errorHandling);

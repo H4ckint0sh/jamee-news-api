@@ -1,20 +1,22 @@
-import db from "../connection";
-import seed from "./seed";
+import db from '../connection';
+import seed from './seed';
 
-import testData from "../data/test-data";
-import devData from "../data/development-data";
+import testData from '../data/test-data';
+import devData from '../data/development-data';
 
-const ENV = process.env.NODE_ENV || "development";
+const ENV = process.env.NODE_ENV || 'development';
 
-const runDevSeed = () => {
-  return seed(devData).then(() => db.close());
+const runDevSeed = async () => {
+    await seed(devData);
+    return db.close();
 };
-const runTestSeed = () => {
-  return seed(testData).then(() => db.close());
+const runTestSeed = async () => {
+    await seed(testData);
+    return db.close();
 };
 
-if (ENV === "test") {
-  runTestSeed();
+if (ENV === 'test') {
+    runTestSeed();
 } else {
-  runDevSeed();
+    runDevSeed();
 }

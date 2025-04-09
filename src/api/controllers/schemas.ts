@@ -79,15 +79,29 @@
  *     User:
  *       type: object
  *       properties:
+ *         user_id:
+ *           type: integer
+ *           description: The unique identifier of the user.
+ *         roleId:
+ *           type: integer
+ *           description: The role of the user.
  *         name:
  *           type: string
  *           description: The name of the user.
- *         username:
+ *         userName:
  *           type: string
- *           description: The username of the user.
+ *           description: The userName of the user.
  *         avatar_url:
  *           type: string
  *           description: The URL of the user's avatar.
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: The timestamp indicating when the user was created.
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: The timestamp indicating when the user was last updated.
  *     Topic:
  *       type: object
  *       properties:

@@ -4,35 +4,35 @@
 
 1. Clone the repository from GitHub:
 
-   ```
-   git clone https://github.com/H4ckint0sh/jamee-news-api.git
-   ```
+    ```
+    git clone https://github.com/H4ckint0sh/jamee-news-api.git
+    ```
 
 2. You will need to create `.env` files for your project: `.env.test`, `.env.development` and `.env.production`. Into first two, add `PGDATABASE=`, with the correct local database name for that environment (see /db/setup.sql for the database names). For the production file add `DATABASE_URL= `with the connection string given from Supabase. Double check that these `.env` files are `.gitignored`.
 
 3. You'll need to run npm install at this point.
 
-   ```
-   npm install
-   ```
+    ```
+    npm install
+    ```
 
 4. You'll need to create dev database and test database running the following command:
 
-   ```
-   npm run setup-dbs
-   ```
+    ```
+    npm run setup-dbs
+    ```
 
 5. After installing dependencies and creating the databases, you'll need to seed db with the following command:
 
-   ```
-   npm run seed
-   ```
+    ```
+    npm run seed
+    ```
 
 6. In order to run ts server type following command:
 
-   ```
-   npm run start-dev
-   ```
+    ```
+    npm run start-dev
+    ```
 
 ## Testing
 

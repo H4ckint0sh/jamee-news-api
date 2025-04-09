@@ -1,2 +1,5 @@
-export { getUserByUsername } from "./getUserByUsername";
-export { getUsers } from "./getUsers";
+export { getAllUsers } from './getAllUsers';
+export { getUserById } from './getUserById';
+export { createUser } from './createUser';
+export { updateUser } from './updateUser';
+export { deleteUser } from './deleteUser';

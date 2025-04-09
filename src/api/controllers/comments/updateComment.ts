@@ -1,28 +1,28 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from 'express';
 
-import * as commentsModel from "../../../models/comments";
+import * as commentsModel from '../../../models/comments';
 
-import { ValidationError } from "../../../middleware/error-handling";
+import { ValidationError } from '../../../middleware/error-handling';
 
 export const updateComment = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
+    req: Request,
+    res: Response,
+    next: NextFunction
 ) => {
-  try {
-    const commentId: number = Number(req.params.comment_id);
-    const incVote: number = req.body.inc_vote;
-    if (isNaN(commentId) || isNaN(incVote)) {
-      throw new ValidationError("Bad request");
+    try {
+        const commentId: number = Number(req.params.comment_id);
+        const incVote: number = req.body.inc_vote;
+        if (isNaN(commentId) || isNaN(incVote)) {
+            throw new ValidationError('Bad request');
+        }
+        const updatedComment = await commentsModel.updateComment(
+            commentId,
+            incVote
+        );
+        res.status(200).send({ updatedComment });
+    } catch (error) {
+        next(error);
     }
-    const updatedComment = await commentsModel.updateComment(
-      commentId,
-      incVote
-    );
-    res.status(200).send({ updatedComment });
-  } catch (error) {
-    next(error);
-  }
 };
 
 /**
